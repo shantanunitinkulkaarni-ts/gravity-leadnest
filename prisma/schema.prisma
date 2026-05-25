@@ -1,0 +1,142 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Agent {
+  id                 String   @id @default(uuid())
+  name               String
+  email              String   @unique
+  passwordHash       String
+  phone              String   @unique
+  businessName       String?
+  city               String?
+  areas              String[] // PostgreSQL array
+  propertyTypes      String[]
+  languagePref       String   @default("English")
+  tone               String   @default("Professional")
+  officeHoursStart   String?  @default("09:00")
+  officeHoursEnd     String?  @default("19:00")
+  outOfOfficeMsg     String?
+  
+  // WhatsApp Integration
+  whatsappConnected  Boolean  @default(false)
+  whatsappNumberId   String?
+  whatsappToken      String?
+  
+  // Subscription & Usage
+  balance            Float    @default(0.0)
+  messagesUsed       Int      @default(0)
+  messageLimit       Int      @default(5000)
+  activePlan         String   @default("TRIAL") // TRIAL, MONTHLY, ANNUAL
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  properties         Property[]
+  leads              Lead[]
+  appointments       Appointment[]
+  messages           Message[]
+  transactions       Transaction[]
+}
+
+model Property {
+  id          String   @id @default(uuid())
+  agentId     String
+  agent       Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  
+  title       String
+  type        String   // Sale or Rental
+  category    String   // Apartment, Villa, Plot, Commercial, Office
+  location    String
+  price       Float    // Price or Rent
+  size        String   // sq ft or BHK
+  description String   @db.Text
+  status      String   @default("Active") // Active, Sold, Rented, On Hold
+  
+  photos      String[]
+  videoLink   String?
+  pdfLink     String?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  appointments Appointment[]
+}
+
+model Lead {
+  id             String   @id @default(uuid())
+  agentId        String
+  agent          Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  
+  name           String?
+  phone          String
+  status         String   @default("New") // New, Contacted, Qualified, ApptBooked, SiteVisitDone, Won, Lost
+  score          Int      @default(0) // 1-10
+  type           String?  // Buyer, Renter
+  budget         String?
+  timeline       String?
+  
+  botActive      Boolean  @default(true) // False means Manual Takeover
+  lastActivityAt DateTime @default(now())
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  appointments   Appointment[]
+  messages       Message[]
+
+  @@unique([agentId, phone]) // A lead is unique per agent by phone number
+}
+
+model Appointment {
+  id          String   @id @default(uuid())
+  agentId     String
+  agent       Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  
+  leadId      String
+  lead        Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  
+  propertyId  String?
+  property    Property? @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  
+  dateTime    DateTime
+  status      String   @default("Upcoming") // Upcoming, Done, Cancelled, NoShow
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Message {
+  id          String   @id @default(uuid())
+  agentId     String
+  agent       Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  
+  leadId      String
+  lead        Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  
+  direction   String   // INBOUND, OUTBOUND
+  content     String   @db.Text
+  type        String   @default("TEXT") // TEXT, TEMPLATE, IMAGE
+  status      String   @default("SENT") // SENT, DELIVERED, READ, FAILED
+  
+  createdAt   DateTime @default(now())
+}
+
+model Transaction {
+  id          String   @id @default(uuid())
+  agentId     String
+  agent       Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  
+  amount      Float
+  type        String   // SUBSCRIPTION, TOPUP, DEDUCTION
+  description String?
+  status      String   @default("SUCCESS") // PENDING, SUCCESS, FAILED
+  
+  createdAt   DateTime @default(now())
+}

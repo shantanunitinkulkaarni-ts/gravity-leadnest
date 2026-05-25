@@ -1,0 +1,111 @@
+<div class="screen-inbox" id="screen-inbox">
+        <div class="inbox-list">
+          <div class="inbox-header">
+            <div class="inbox-title">Conversations</div>
+            <div class="filter-tabs">
+              <span class="ftab on" onclick="ftab(this)">All</span>
+              <span class="ftab" onclick="ftab(this)">Hot</span>
+              <span class="ftab" onclick="ftab(this)">Unread</span>
+            </div>
+          </div>
+          <div class="inbox-scroll">
+            <div class="conv sel" onclick="selectLead(this,'rahul')">
+              <div class="conv-av" style="background:#FDF0F0;color:#8B1A1A">RK</div>
+              <div class="conv-body"><div class="conv-name">Rahul Kumar</div><div class="conv-preview">Can I see it this Saturday?</div></div>
+              <div class="conv-meta"><span class="conv-time">2m</span><span class="pill p-hot">Hot</span></div>
+            </div>
+            <div class="conv" onclick="selectLead(this,'priya')">
+              <div class="conv-av" style="background:#FEF9E7;color:#7A5200">PS</div>
+              <div class="conv-body"><div class="conv-name">Priya Sharma</div><div class="conv-preview">What is the maintenance charge?</div></div>
+              <div class="conv-meta"><span class="conv-time">18m</span><span class="pill p-warm">Warm</span></div>
+            </div>
+            <div class="conv" onclick="selectLead(this,'amit')">
+              <div class="conv-av" style="background:#EEF4FC;color:#0F3D6E">AM</div>
+              <div class="conv-body"><div class="conv-name">Amit Mehta</div><div class="conv-preview">Just exploring for now</div></div>
+              <div class="conv-meta"><span class="conv-time">1h</span><span class="pill p-cold">Cold</span></div>
+            </div>
+            <div class="conv" onclick="selectLead(this,'sunita')">
+              <div class="conv-av" style="background:#E8F5EE;color:#0F4A2E">SJ</div>
+              <div class="conv-body"><div class="conv-name">Sunita Joshi</div><div class="conv-preview">Hi, interested in 2BHK rental</div></div>
+              <div class="conv-meta"><span class="conv-time">3h</span><span class="pill p-new">New</span></div>
+            </div>
+            <div class="conv" onclick="selectLead(this,'deepak')">
+              <div class="conv-av" style="background:#EEEDFE;color:#3C3489">DR</div>
+              <div class="conv-body"><div class="conv-name">Deepak Rao</div><div class="conv-preview">Send me the floor plan</div></div>
+              <div class="conv-meta"><span class="conv-time">5h</span><span class="pill p-warm">Warm</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="detail">
+          <div class="detail-header" id="detail-header">
+            <div class="d-av" id="d-av" style="background:#FDF0F0;color:#8B1A1A">RK</div>
+            <div><div class="d-name" id="d-name">Rahul Kumar</div><div class="d-phone" id="d-phone">+91 98765 43210</div></div>
+            <div class="d-header-right">
+              <span class="score-badge" id="d-score" style="background:#FDF0F0;color:#8B1A1A"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> 9/10</span>
+              <span class="window-tag wt-ok" id="d-window">⏱ 6h left</span>
+              <div class="d-actions">
+                <button class="da-btn da-btn-danger" id="takeover-btn" onclick="toggleManual()">Take over</button>
+                <button class="da-btn da-btn-primary">Book visit</button>
+              </div>
+            </div>
+          </div>
+          <div class="manual-bar" id="manual-bar">
+            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            You are in manual mode — bot is paused on this conversation
+            <button class="da-btn" style="margin-left:auto;font-size:11px" onclick="toggleManual()">Resume bot</button>
+          </div>
+          <div class="detail-tabs">
+            <div class="dtab on" onclick="showDTab('chat',this)">Chat</div>
+            <div class="dtab" onclick="showDTab('profile',this)">Profile</div>
+            <div class="dtab" onclick="showDTab('matched',this)">Matched properties</div>
+            <div class="dtab" onclick="showDTab('activity',this)">Activity</div>
+          </div>
+          <div class="dpane on" id="dpane-chat">
+            <div class="chat-messages">
+              <div class="msg out"><div class="msg-from"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>LeadNest bot</div><div class="msg-bubble">Hello! Welcome to Rajesh Properties. Are you looking to Buy or Rent?</div><div class="msg-time">10:02 AM</div></div>
+              <div class="msg in"><div class="msg-bubble">Buy. Looking for 3BHK in Baner</div><div class="msg-time">10:03 AM</div></div>
+              <div class="msg out"><div class="msg-from"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>LeadNest bot</div><div class="msg-bubble">Great! What is your approximate budget?</div><div class="msg-time">10:03 AM</div></div>
+              <div class="msg in"><div class="msg-bubble">Around 90 lakhs, flexible by 5-10L</div><div class="msg-time">10:05 AM</div></div>
+              <div class="msg out"><div class="msg-from"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>LeadNest bot</div><div class="msg-bubble">I have a beautiful east-facing 3BHK in Baner at ₹88L — 1,450 sqft with covered parking. Shall I share the details and photos?</div><div class="msg-time">10:05 AM</div></div>
+              <div class="msg in"><div class="msg-bubble">Yes please! Can I see it this Saturday?</div><div class="msg-time">10:08 AM</div></div>
+              <div class="msg out"><div class="msg-from"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>LeadNest bot</div><div class="msg-bubble">Absolutely! What works best — morning or afternoon?</div><div class="msg-time">10:08 AM</div></div>
+            </div>
+            <div class="chat-input">
+              <input type="text" id="chat-input-field" placeholder="Type a message (take over to reply)..." disabled>
+              <button class="send-btn"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+            </div>
+          </div>
+          <div class="dpane" id="dpane-profile">
+            <div class="profile-grid">
+              <div class="prow"><span class="pk">Looking for</span><span class="pv">Buy — 3BHK</span></div>
+              <div class="prow"><span class="pk">Areas preferred</span><span class="pv">Baner, Wakad</span></div>
+              <div class="prow"><span class="pk">Budget</span><span class="pv">₹85L – ₹1Cr</span></div>
+              <div class="prow"><span class="pk">Timeline</span><span class="pv">Within 3 months</span></div>
+              <div class="prow"><span class="pk">Family size</span><span class="pv">4 members</span></div>
+              <div class="prow"><span class="pk">Parking needed</span><span class="pv">Yes — 1 covered</span></div>
+              <div class="prow"><span class="pk">Lead source</span><span class="pv">WhatsApp inbound</span></div>
+              <div class="prow"><span class="pk">First contact</span><span class="pv">25 May 2026</span></div>
+              <div class="prow full"><span class="pk">AI lead score</span><span class="pv" style="color:var(--red)">9 / 10 — Hot lead</span></div>
+            </div>
+          </div>
+          <div class="dpane" id="dpane-matched">
+            <div class="match-list">
+              <div class="mp-card"><div class="mp-icon" style="background:var(--blue-light)">🏢</div><div class="mp-info"><div class="mp-name">3BHK Apartment — Baner</div><div class="mp-detail">1,450 sqft · East facing · Covered parking</div></div><div style="text-align:right"><div class="mp-price">₹88L</div><span class="mp-badge" style="background:var(--green-light);color:var(--green)">Best match</span></div></div>
+              <div class="mp-card"><div class="mp-icon" style="background:var(--green-light)">🏠</div><div class="mp-info"><div class="mp-name">3BHK Villa — Wakad</div><div class="mp-detail">1,800 sqft · Private garden · 2 parking</div></div><div style="text-align:right"><div class="mp-price">₹95L</div></div></div>
+              <div class="mp-card"><div class="mp-icon" style="background:var(--gold-light)">🏗</div><div class="mp-info"><div class="mp-name">3BHK Flat — Aundh</div><div class="mp-detail">1,320 sqft · Gym + pool · New building</div></div><div style="text-align:right"><div class="mp-price">₹92L</div></div></div>
+            </div>
+          </div>
+          <div class="dpane" id="dpane-activity">
+            <div class="tl">
+              <div class="tl-item"><div class="tl-icon" style="background:var(--red-light);border-color:rgba(192,57,43,0.2)"><svg viewBox="0 0 24 24" stroke="var(--red)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div><div class="tl-title">Marked as hot lead — AI score 9/10</div><div class="tl-sub">Today, 10:08 AM</div></div></div>
+              <div class="tl-item"><div class="tl-icon" style="background:var(--green-light);border-color:rgba(46,139,95,0.2)"><svg viewBox="0 0 24 24" stroke="var(--green)"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div><div class="tl-title">Site visit requested for Saturday</div><div class="tl-sub">Today, 10:08 AM</div></div></div>
+              <div class="tl-item"><div class="tl-icon" style="background:var(--blue-light);border-color:rgba(26,95,165,0.2)"><svg viewBox="0 0 24 24" stroke="var(--blue)"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div><div><div class="tl-title">Property match shared — 3BHK Baner</div><div class="tl-sub">Today, 10:05 AM</div></div></div>
+              <div class="tl-item"><div class="tl-icon"><svg viewBox="0 0 24 24" stroke="var(--ink-3)"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><div><div class="tl-title">Discovery completed — budget, area, timeline captured</div><div class="tl-sub">Today, 10:05 AM</div></div></div>
+              <div class="tl-item"><div class="tl-icon"><svg viewBox="0 0 24 24" stroke="var(--ink-3)"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg></div><div><div class="tl-title">Lead created — first message received</div><div class="tl-sub">Today, 10:02 AM</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEADS -->
+      

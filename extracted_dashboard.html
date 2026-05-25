@@ -1,0 +1,72 @@
+<div class="screen active" id="screen-dashboard">
+        <div class="dash-metrics">
+          <div class="metric-card mc-green">
+            <div class="metric-icon" style="background:var(--green-light)"><svg viewBox="0 0 24 24" stroke="var(--green)"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+            <div class="metric-label">Total leads</div>
+            <div class="metric-val">47</div>
+            <div class="metric-change mc-up"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg> +12 this week</div>
+          </div>
+          <div class="metric-card mc-red">
+            <div class="metric-icon" style="background:var(--red-light)"><svg viewBox="0 0 24 24" stroke="var(--red)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+            <div class="metric-label">Hot leads</div>
+            <div class="metric-val">12</div>
+            <div class="metric-change mc-up"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg> +3 today</div>
+          </div>
+          <div class="metric-card mc-blue">
+            <div class="metric-icon" style="background:var(--blue-light)"><svg viewBox="0 0 24 24" stroke="var(--blue)"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+            <div class="metric-label">Site visits booked</div>
+            <div class="metric-val">8</div>
+            <div class="metric-change mc-up"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg> +2 this week</div>
+          </div>
+          <div class="metric-card mc-amber">
+            <div class="metric-icon" style="background:var(--gold-light)"><svg viewBox="0 0 24 24" stroke="var(--gold)"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+            <div class="metric-label">Bot handled</div>
+            <div class="metric-val">94%</div>
+            <div class="metric-change" style="color:var(--ink-4)">of all conversations</div>
+          </div>
+        </div>
+
+        <div class="dash-two">
+          <div class="dash-card">
+            <div class="dc-title">Recent hot leads</div>
+            <div class="lead-row" onclick="showScreen('inbox',document.querySelector('[onclick*=inbox]'))">
+              <div class="lr-av" style="background:#FDF0F0;color:#8B1A1A">RK</div>
+              <div class="lr-info"><div class="lr-name">Rahul Kumar</div><div class="lr-prop">3BHK · Baner · ₹90L</div></div>
+              <div class="lr-right"><div class="lr-score" style="color:var(--red)">9/10</div><div class="lr-time">2m ago</div></div>
+            </div>
+            <div class="lead-row">
+              <div class="lr-av" style="background:#EEF4FC;color:#0F3D6E">AD</div>
+              <div class="lr-info"><div class="lr-name">Anita Desai</div><div class="lr-prop">4BHK · Koregaon Park · ₹2.2Cr</div></div>
+              <div class="lr-right"><div class="lr-score" style="color:var(--red)">9/10</div><div class="lr-time">1h ago</div></div>
+            </div>
+            <div class="lead-row">
+              <div class="lr-av" style="background:#E8F5EE;color:#0F4A2E">PS</div>
+              <div class="lr-info"><div class="lr-name">Priya Sharma</div><div class="lr-prop">2BHK · Wakad · ₹65L</div></div>
+              <div class="lr-right"><div class="lr-score" style="color:var(--amber)">8/10</div><div class="lr-time">18m ago</div></div>
+            </div>
+            <div class="lead-row">
+              <div class="lr-av" style="background:#FEF9E7;color:#7A5200">DR</div>
+              <div class="lr-info"><div class="lr-name">Deepak Rao</div><div class="lr-prop">3BHK · Aundh · ₹1.1Cr</div></div>
+              <div class="lr-right"><div class="lr-score" style="color:var(--amber)">7/10</div><div class="lr-time">5h ago</div></div>
+            </div>
+          </div>
+          <div class="dash-card">
+            <div class="dc-title">Lead breakdown</div>
+            <div class="bar-row-d"><span class="bar-label-d">Hot</span><div class="bar-track-d"><div class="bar-fill-d" style="width:26%;background:#E74C3C"></div></div><span class="bar-val-d">12</span></div>
+            <div class="bar-row-d"><span class="bar-label-d">Warm</span><div class="bar-track-d"><div class="bar-fill-d" style="width:45%;background:#E9A530"></div></div><span class="bar-val-d">21</span></div>
+            <div class="bar-row-d"><span class="bar-label-d">Cold</span><div class="bar-track-d"><div class="bar-fill-d" style="width:30%;background:#3B82F6"></div></div><span class="bar-val-d">14</span></div>
+            <div style="margin-top:16px">
+              <div class="dc-title">Message usage</div>
+              <div class="usage-block">
+                <div class="ub-row"><span class="ub-label">Messages used</span><span class="ub-val">3,241 / 5,000</span></div>
+                <div class="ub-track"><div class="ub-fill" style="width:65%"></div></div>
+                <div class="ub-row"><span class="ub-label">WA balance used</span><span class="ub-val">₹158 / ₹500</span></div>
+                <div class="ub-track"><div class="ub-fill ub-fill-g" style="width:32%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INBOX -->
+      

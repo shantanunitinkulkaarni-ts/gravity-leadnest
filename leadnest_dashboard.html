@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeadNest — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #FAFAF7;
+  --cream-2: #F4F3EE;
+  --cream-3: #ECEAE0;
+  --ink: #1A1916;
+  --ink-2: #3D3B34;
+  --ink-3: #6B6860;
+  --ink-4: #9E9B92;
+  --ink-5: #C8C5BC;
+  --green: #1A6B4A;
+  --green-light: #E8F5EE;
+  --green-mid: #2E8B5F;
+  --green-bright: #4DB88A;
+  --gold: #B8955A;
+  --gold-light: #FDF6EC;
+  --red: #C0392B;
+  --red-light: #FDF0F0;
+  --amber: #B7770D;
+  --amber-light: #FEF9E7;
+  --blue: #1A5FA5;
+  --blue-light: #EEF4FC;
+  --border: rgba(26,25,22,0.08);
+  --border-md: rgba(26,25,22,0.13);
+  --border-strong: rgba(26,25,22,0.18);
+  --radius: 14px;
+  --radius-sm: 9px;
+  --radius-xs: 6px;
+  --shadow-sm: 0 1px 2px rgba(26,25,22,0.06), 0 2px 8px rgba(26,25,22,0.04);
+  --shadow: 0 1px 4px rgba(26,25,22,0.07), 0 6px 24px rgba(26,25,22,0.05);
+  --shadow-md: 0 2px 8px rgba(26,25,22,0.08), 0 12px 40px rgba(26,25,22,0.07);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);height:100vh;overflow:hidden}
+button,input,select,textarea{font-family:'DM Sans',sans-serif}
+
+.app{display:flex;height:100vh;overflow:hidden}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:220px;min-width:220px;
+  background:var(--ink);
+  display:flex;flex-direction:column;
+  position:relative;overflow:hidden;
+}
+.sb-glow{
+  position:absolute;width:280px;height:280px;
+  background:radial-gradient(circle,rgba(46,139,95,0.16) 0%,transparent 70%);
+  top:-60px;right:-100px;pointer-events:none;
+}
+.sb-glow2{
+  position:absolute;width:200px;height:200px;
+  background:radial-gradient(circle,rgba(184,149,90,0.10) 0%,transparent 70%);
+  bottom:40px;left:-60px;pointer-events:none;
+}
+.sb-inner{position:relative;z-index:1;display:flex;flex-direction:column;height:100%}
+
+.sb-logo{padding:22px 20px 18px;border-bottom:1px solid rgba(255,255,255,0.07)}
+.logo-wrap{display:inline-flex;align-items:center;gap:8px}
+.logo-icon{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#2E8B5F,#1A6B4A);display:flex;align-items:center;justify-content:center}
+.logo-icon svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5}
+.logo-text{font-size:15px;font-weight:500;color:#fff;letter-spacing:-0.01em}
+
+.sb-agent{padding:14px 20px 12px;border-bottom:1px solid rgba(255,255,255,0.07)}
+.agent-row{display:flex;align-items:center;gap:10px}
+.agent-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#2E8B5F,#1A6B4A);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:#fff;flex-shrink:0}
+.agent-name{font-size:12px;font-weight:500;color:#fff}
+.agent-agency{font-size:10px;color:rgba(255,255,255,0.35);margin-top:1px}
+.bot-pill{margin-top:10px;display:inline-flex;align-items:center;gap:5px;background:rgba(77,184,138,0.15);border:1px solid rgba(77,184,138,0.25);border-radius:20px;padding:4px 10px;cursor:pointer}
+.bot-dot{width:6px;height:6px;border-radius:50%;background:#4DB88A}
+.bot-pill-text{font-size:10px;color:#4DB88A;font-weight:500}
+
+.sb-nav{flex:1;padding:10px 10px;display:flex;flex-direction:column;gap:2px}
+.nav-section-label{font-size:9px;font-weight:500;color:rgba(255,255,255,0.25);letter-spacing:0.08em;padding:8px 10px 4px;text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:all 0.15s;color:rgba(255,255,255,0.45);font-size:12px}
+.nav-item:hover{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.75)}
+.nav-item.active{background:rgba(255,255,255,0.10);color:#fff}
+.nav-item svg{width:16px;height:16px;flex-shrink:0;opacity:0.8}
+.nav-item.active svg{opacity:1}
+.nav-badge{margin-left:auto;background:#C0392B;color:#fff;font-size:9px;padding:1px 6px;border-radius:10px;font-weight:500}
+.nav-badge-green{background:rgba(77,184,138,0.2);color:#4DB88A;margin-left:auto;font-size:9px;padding:1px 6px;border-radius:10px}
+
+.sb-bottom{padding:14px 20px;border-top:1px solid rgba(255,255,255,0.07)}
+.balance-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.bal-label{font-size:10px;color:rgba(255,255,255,0.3)}
+.bal-val{font-size:11px;font-weight:500;color:#fff}
+.bal-track{height:3px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden}
+.bal-fill{height:100%;background:linear-gradient(90deg,#2E8B5F,#4DB88A);border-radius:2px}
+
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+.topbar{
+  background:#fff;border-bottom:1px solid var(--border);
+  height:54px;padding:0 28px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+}
+.topbar-left{display:flex;align-items:center;gap:14px}
+.page-title{font-size:15px;font-weight:500;color:var(--ink)}
+.page-breadcrumb{font-size:12px;color:var(--ink-4)}
+.topbar-right{display:flex;align-items:center;gap:8px}
+.tb-btn{width:34px;height:34px;border-radius:8px;border:1px solid var(--border-md);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;position:relative}
+.tb-btn:hover{background:var(--cream-2)}
+.tb-btn svg{width:16px;height:16px;stroke:var(--ink-3);fill:none;stroke-width:1.8}
+.notif-dot{position:absolute;top:6px;right:7px;width:5px;height:5px;border-radius:50%;background:#C0392B;border:1.5px solid #fff}
+.tb-divider{width:1px;height:20px;background:var(--border-strong);margin:0 4px}
+.search-bar{display:flex;align-items:center;gap:7px;background:var(--cream);border:1px solid var(--border-md);border-radius:8px;padding:0 12px;height:34px;width:200px}
+.search-bar svg{width:14px;height:14px;stroke:var(--ink-4);fill:none;stroke-width:2;flex-shrink:0}
+.search-bar input{border:none;background:transparent;font-size:12px;color:var(--ink);width:100%;outline:none}
+.search-bar input::placeholder{color:var(--ink-5)}
+
+.content{flex:1;overflow:hidden;display:flex}
+
+/* ── SCREENS ── */
+.screen{display:none;flex:1;overflow-y:auto;padding:24px 28px}
+.screen.active{display:block}
+.screen-inbox{display:none;flex:1;overflow:hidden}
+.screen-inbox.active{display:flex}
+
+/* ── INBOX SCREEN ── */
+.inbox-list{width:320px;min-width:320px;border-right:1px solid var(--border);display:flex;flex-direction:column;background:#fff}
+.inbox-header{padding:16px 18px;border-bottom:1px solid var(--border)}
+.inbox-title{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:10px}
+.filter-tabs{display:flex;gap:4px}
+.ftab{font-size:11px;padding:4px 10px;border-radius:20px;cursor:pointer;border:1px solid var(--border-md);color:var(--ink-3);background:var(--cream);transition:all 0.15s}
+.ftab:hover{border-color:var(--green-mid);color:var(--green)}
+.ftab.on{background:var(--green-light);border-color:var(--green-mid);color:var(--green);font-weight:500}
+.inbox-scroll{flex:1;overflow-y:auto}
+.conv{display:flex;align-items:center;gap:10px;padding:12px 18px;cursor:pointer;border-bottom:1px solid var(--border);border-left:2px solid transparent;transition:all 0.15s}
+.conv:hover{background:var(--cream)}
+.conv.sel{background:#EEF4FC;border-left-color:var(--blue)}
+.conv-av{width:38px;height:38px;min-width:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500}
+.conv-body{flex:1;min-width:0}
+.conv-name{font-size:13px;font-weight:500;color:var(--ink)}
+.conv-preview{font-size:11px;color:var(--ink-4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.conv-meta{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+.conv-time{font-size:10px;color:var(--ink-5)}
+.pill{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500;white-space:nowrap}
+.p-hot{background:#FDF0F0;color:#8B1A1A}
+.p-warm{background:#FEF9E7;color:#7A5200}
+.p-cold{background:#EEF4FC;color:#0F3D6E}
+.p-new{background:#E8F5EE;color:#0F4A2E}
+
+/* ── DETAIL PANEL ── */
+.detail{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--cream)}
+.detail-header{background:#fff;border-bottom:1px solid var(--border);padding:14px 22px;display:flex;align-items:center;gap:14px;flex-shrink:0}
+.d-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;flex-shrink:0}
+.d-name{font-size:15px;font-weight:500;color:var(--ink)}
+.d-phone{font-size:12px;color:var(--ink-4);margin-top:1px}
+.d-header-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.score-badge{display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:8px;font-size:12px;font-weight:500}
+.window-tag{font-size:11px;padding:4px 10px;border-radius:20px;font-weight:500}
+.wt-ok{background:var(--green-light);color:var(--green);border:1px solid rgba(46,139,95,0.2)}
+.wt-warn{background:var(--amber-light);color:var(--amber);border:1px solid rgba(183,119,13,0.2)}
+.d-actions{display:flex;gap:6px}
+.da-btn{font-size:11px;padding:6px 12px;border-radius:7px;cursor:pointer;border:1px solid var(--border-strong);background:#fff;color:var(--ink-2);transition:all 0.15s;font-weight:500}
+.da-btn:hover{background:var(--cream-2)}
+.da-btn-primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+.da-btn-primary:hover{background:var(--ink-2)}
+.da-btn-danger{background:var(--red-light);color:var(--red);border-color:rgba(192,57,43,0.2)}
+
+.manual-bar{background:var(--amber-light);border-bottom:1px solid rgba(183,119,13,0.2);padding:7px 22px;font-size:12px;color:var(--amber);display:none;align-items:center;gap:8px;flex-shrink:0}
+.manual-bar svg{width:14px;height:14px;stroke:var(--amber);fill:none;stroke-width:2;flex-shrink:0}
+
+.detail-tabs{background:#fff;border-bottom:1px solid var(--border);padding:0 22px;display:flex;flex-shrink:0}
+.dtab{font-size:12px;padding:10px 14px;cursor:pointer;color:var(--ink-4);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.15s;font-weight:400}
+.dtab:hover{color:var(--ink-2)}
+.dtab.on{color:var(--blue);border-bottom-color:var(--blue);font-weight:500}
+
+.dpane{display:none;flex:1;overflow-y:auto}
+.dpane.on{display:block}
+
+/* ── CHAT ── */
+.chat-messages{padding:16px 20px;display:flex;flex-direction:column;gap:10px}
+.msg{display:flex;flex-direction:column}
+.msg.out{align-items:flex-end}
+.msg.in{align-items:flex-start}
+.msg-from{font-size:10px;color:var(--ink-4);margin-bottom:3px;display:flex;align-items:center;gap:4px}
+.msg-from svg{width:11px;height:11px;stroke:var(--blue);fill:none;stroke-width:2.5}
+.msg-bubble{padding:9px 13px;font-size:13px;line-height:1.5;max-width:72%}
+.msg.out .msg-bubble{background:var(--ink);color:#fff;border-radius:14px 14px 4px 14px}
+.msg.in .msg-bubble{background:#fff;color:var(--ink);border-radius:14px 14px 14px 4px;border:1px solid var(--border)}
+.msg-time{font-size:10px;color:var(--ink-5);margin-top:3px}
+
+.chat-input{padding:12px 16px;border-top:1px solid var(--border);background:#fff;display:flex;gap:8px;align-items:center;flex-shrink:0}
+.chat-input input{flex:1;height:38px;border:1px solid var(--border-strong);border-radius:20px;padding:0 14px;font-size:13px;background:var(--cream);color:var(--ink);outline:none;transition:all 0.15s}
+.chat-input input:focus{border-color:var(--green-mid);background:#fff}
+.chat-input input:disabled{opacity:0.5;cursor:not-allowed}
+.send-btn{width:36px;height:36px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.send-btn:hover{background:var(--ink-2)}
+.send-btn svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2}
+
+/* ── PROFILE TAB ── */
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:18px 20px}
+.prow{display:flex;flex-direction:column;padding:10px 0;border-bottom:1px solid var(--border);grid-column:span 1}
+.prow.full{grid-column:span 2}
+.pk{font-size:11px;color:var(--ink-4);margin-bottom:3px}
+.pv{font-size:13px;font-weight:500;color:var(--ink)}
+
+/* ── MATCHED PROPS ── */
+.match-list{padding:16px 20px;display:flex;flex-direction:column;gap:8px}
+.mp-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all 0.15s}
+.mp-card:hover{border-color:var(--border-md);box-shadow:var(--shadow-sm)}
+.mp-icon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.mp-info{flex:1}
+.mp-name{font-size:13px;font-weight:500;color:var(--ink)}
+.mp-detail{font-size:11px;color:var(--ink-4);margin-top:2px}
+.mp-price{font-size:14px;font-weight:500;color:var(--blue)}
+.mp-badge{font-size:10px;padding:2px 8px;border-radius:10px;margin-top:3px;display:inline-block}
+
+/* ── TIMELINE ── */
+.tl{padding:16px 20px;display:flex;flex-direction:column;gap:0}
+.tl-item{display:flex;gap:12px;padding-bottom:16px;position:relative}
+.tl-item:not(:last-child)::before{content:'';position:absolute;left:15px;top:32px;bottom:0;width:1px;background:var(--border-strong)}
+.tl-icon{width:30px;height:30px;min-width:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-strong);background:#fff;flex-shrink:0}
+.tl-icon svg{width:14px;height:14px;fill:none;stroke-width:2}
+.tl-title{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:2px}
+.tl-sub{font-size:11px;color:var(--ink-4)}
+
+/* ── DASHBOARD SCREEN ── */
+.dash-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.metric-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;position:relative;overflow:hidden}
+.metric-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0}
+.mc-green::before{background:linear-gradient(90deg,#2E8B5F,#4DB88A)}
+.mc-amber::before{background:linear-gradient(90deg,#B7770D,#E9A530)}
+.mc-red::before{background:linear-gradient(90deg,#C0392B,#E74C3C)}
+.mc-blue::before{background:linear-gradient(90deg,#1A5FA5,#3B82F6)}
+.metric-label{font-size:11px;color:var(--ink-4);margin-bottom:6px;font-weight:400}
+.metric-val{font-size:26px;font-weight:500;color:var(--ink);line-height:1;margin-bottom:4px;letter-spacing:-0.02em}
+.metric-change{font-size:11px;display:flex;align-items:center;gap:3px}
+.mc-up{color:var(--green)}
+.mc-down{color:var(--red)}
+.metric-icon{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.metric-icon svg{width:16px;height:16px;fill:none;stroke-width:2}
+
+.dash-two{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.dash-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px}
+.dc-title{font-size:12px;font-weight:500;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:14px}
+
+.lead-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:all 0.15s}
+.lead-row:last-child{border-bottom:none}
+.lead-row:hover .lr-name{color:var(--blue)}
+.lr-av{width:30px;height:30px;min-width:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500}
+.lr-info{flex:1}
+.lr-name{font-size:12px;font-weight:500;color:var(--ink);transition:color 0.15s}
+.lr-prop{font-size:11px;color:var(--ink-4)}
+.lr-right{text-align:right}
+.lr-score{font-size:11px;font-weight:500}
+.lr-time{font-size:10px;color:var(--ink-5)}
+
+.bar-row-d{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.bar-label-d{font-size:11px;color:var(--ink-3);width:55px;flex-shrink:0}
+.bar-track-d{flex:1;height:7px;background:var(--cream-3);border-radius:4px;overflow:hidden}
+.bar-fill-d{height:100%;border-radius:4px}
+.bar-val-d{font-size:11px;color:var(--ink-3);width:24px;text-align:right;flex-shrink:0}
+
+.usage-block{margin-top:4px}
+.ub-row{display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px}
+.ub-label{color:var(--ink-3)}
+.ub-val{color:var(--ink-2);font-weight:500}
+.ub-track{height:8px;background:var(--cream-3);border-radius:4px;overflow:hidden;margin-bottom:12px}
+.ub-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#1A5FA5,#3B82F6)}
+.ub-fill-g{background:linear-gradient(90deg,#2E8B5F,#4DB88A)}
+
+/* ── LEADS SCREEN ── */
+.leads-screen{padding:24px 28px}
+.ls-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.ls-title{font-size:15px;font-weight:500;color:var(--ink)}
+.pipeline{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.pipe-col{background:var(--cream-2);border:1px solid var(--border);border-radius:var(--radius);padding:12px;min-height:280px}
+.pipe-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.pipe-label{font-size:11px;font-weight:500;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.04em}
+.pipe-count{font-size:10px;background:#fff;border:1px solid var(--border-md);color:var(--ink-3);padding:1px 7px;border-radius:10px}
+.lcard{background:#fff;border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 13px;margin-bottom:7px;cursor:pointer;transition:all 0.15s}
+.lcard:hover{border-color:var(--border-md);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+.lcard-name{font-size:12px;font-weight:500;color:var(--ink)}
+.lcard-prop{font-size:11px;color:var(--ink-4);margin-top:2px}
+.lcard-foot{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.lcard-budget{font-size:11px;color:var(--ink-3)}
+.lcard-score{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:500}
+.score-hi{background:var(--green-light);color:var(--green)}
+.score-mid{background:var(--amber-light);color:var(--amber)}
+.score-lo{background:var(--blue-light);color:var(--blue)}
+
+/* ── PROPERTIES SCREEN ── */
+.props-screen{padding:24px 28px}
+.prop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.prop-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all 0.15s;cursor:pointer}
+.prop-card:hover{box-shadow:var(--shadow);border-color:var(--border-md);transform:translateY(-2px)}
+.prop-thumb{height:100px;display:flex;align-items:center;justify-content:center;font-size:32px;position:relative}
+.prop-status-tag{position:absolute;top:8px;right:8px;font-size:10px;padding:3px 8px;border-radius:20px;font-weight:500}
+.pst-active{background:rgba(255,255,255,0.92);color:var(--green);border:1px solid rgba(46,139,95,0.2)}
+.pst-sold{background:rgba(255,255,255,0.92);color:var(--ink-3);border:1px solid var(--border-strong)}
+.prop-body{padding:14px 15px}
+.prop-title{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:2px}
+.prop-loc{font-size:11px;color:var(--ink-4)}
+.prop-price{font-size:16px;font-weight:500;color:var(--blue);margin:8px 0 8px}
+.prop-tags{display:flex;flex-wrap:wrap;gap:4px}
+.prop-tag{font-size:10px;padding:2px 7px;border-radius:var(--radius-xs);background:var(--cream);color:var(--ink-3);border:1px solid var(--border)}
+
+/* ── APPTS SCREEN ── */
+.appts-screen{padding:24px 28px}
+.appt-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-bottom:10px;display:flex;align-items:center;gap:14px;transition:all 0.15s}
+.appt-card:hover{box-shadow:var(--shadow-sm)}
+.appt-date-box{text-align:center;min-width:48px;background:var(--cream);border-radius:var(--radius-sm);padding:8px;border:1px solid var(--border)}
+.adb-day{font-size:22px;font-weight:500;color:var(--ink);line-height:1}
+.adb-month{font-size:10px;color:var(--ink-4);text-transform:uppercase;letter-spacing:0.04em}
+.appt-info{flex:1}
+.appt-name{font-size:14px;font-weight:500;color:var(--ink)}
+.appt-prop{font-size:12px;color:var(--ink-3);margin-top:2px}
+.appt-time{font-size:12px;color:var(--ink-4);margin-top:4px;display:flex;align-items:center;gap:5px}
+.appt-time svg{width:12px;height:12px;stroke:var(--ink-4);fill:none;stroke-width:2}
+.appt-status{font-size:11px;padding:4px 12px;border-radius:20px;font-weight:500;white-space:nowrap}
+.as-upcoming{background:var(--green-light);color:var(--green)}
+.as-done{background:var(--cream-2);color:var(--ink-4)}
+.as-pending{background:var(--amber-light);color:var(--amber)}
+
+/* ── ANALYTICS SCREEN ── */
+.analytics-screen{padding:24px 28px}
+.an-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+
+/* ── SETTINGS SCREEN ── */
+.settings-screen{padding:24px 28px;max-width:640px}
+.settings-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;margin-bottom:14px}
+.settings-title{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.srow{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+.srow:last-child{border-bottom:none}
+.skey{font-size:13px;color:var(--ink-2)}
+.sval{font-size:12px;color:var(--ink-3)}
+.s-edit{font-size:11px;color:var(--blue);cursor:pointer;font-weight:500}
+.toggle{position:relative;width:36px;height:20px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.tslider{position:absolute;inset:0;background:var(--cream-3);border-radius:20px;cursor:pointer;transition:background 0.2s;border:1px solid var(--border-strong)}
+.tslider::before{content:'';position:absolute;width:14px;height:14px;left:2px;top:2px;background:#fff;border-radius:50%;transition:0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.15)}
+.toggle input:checked + .tslider{background:var(--green-mid);border-color:var(--green-mid)}
+.toggle input:checked + .tslider::before{transform:translateX(16px)}
+
+/* ── BALANCE SCREEN ── */
+.balance-screen{padding:24px 28px;max-width:580px}
+.bal-hero{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:14px}
+.bal-amount{font-family:'DM Serif Display',serif;font-size:42px;color:var(--ink);line-height:1;margin-bottom:4px}
+.bal-sub{font-size:12px;color:var(--ink-4)}
+.topup-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}
+.topup-btn{padding:11px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:var(--cream);cursor:pointer;text-align:center;font-size:13px;font-weight:500;color:var(--ink-2);transition:all 0.15s;font-family:'DM Sans',sans-serif}
+.topup-btn:hover{border-color:var(--green-mid);color:var(--green);background:var(--green-light)}
+.txn-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px}
+.txn-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);font-size:12px}
+.txn-row:last-child{border-bottom:none}
+.txn-desc{color:var(--ink-2)}
+.txn-date{color:var(--ink-5);font-size:11px}
+.txn-credit{color:var(--green);font-weight:500}
+.txn-debit{color:var(--red)}
+
+/* ── ADD PROPERTY BTN ── */
+.add-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;background:var(--ink);color:#fff;border:none;cursor:pointer;font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;transition:all 0.15s}
+.add-btn:hover{background:var(--ink-2);transform:translateY(-1px)}
+.add-btn svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5}
+
+.screen-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.screen-title{font-size:15px;font-weight:500;color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sb-glow"></div><div class="sb-glow2"></div>
+    <div class="sb-inner">
+      <div class="sb-logo">
+        <div class="logo-wrap">
+          <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <span class="logo-text">LeadNest</span>
+        </div>
+      </div>
+      <div class="sb-agent">
+        <div class="agent-row">
+          <div class="agent-av">RS</div>
+          <div>
+            <div class="agent-name">Rajesh Sharma</div>
+            <div class="agent-agency">Rajesh Properties, Pune</div>
+          </div>
+        </div>
+        <div class="bot-pill" onclick="toggleBot()">
+          <div class="bot-dot" id="bot-dot"></div>
+          <span class="bot-pill-text" id="bot-text">Bot active</span>
+        </div>
+      </div>
+      <div class="sb-nav">
+        <div class="nav-section-label">Main</div>
+        <div class="nav-item active" onclick="showScreen('dashboard',this)">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Overview
+        </div>
+        <div class="nav-item" onclick="showScreen('inbox',this)">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          Inbox
+          <span class="nav-badge">4</span>
+        </div>
+        <div class="nav-item" onclick="showScreen('leads',this)">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          Leads
+          <span class="nav-badge-green">47</span>
+        </div>
+        <div class="nav-item" onclick="showScreen('properties',this)">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Properties
+        </div>
+        <div class="nav-item" onclick="showScreen('appointments',this)">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Appointments
+        </div>
+        <div class="nav-section-label">Reports</div>
+        <div class="nav-item" onclick="showScreen('analytics',this)">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Analytics
+        </div>
+        <div class="nav-section-label">Account</div>
+        <div class="nav-item" onclick="showScreen('balance',this)">
+          <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          WA Balance
+        </div>
+        <div class="nav-item" onclick="showScreen('settings',this)">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          Settings
+        </div>
+      </div>
+      <div class="sb-bottom">
+        <div class="balance-row">
+          <span class="bal-label">WA balance</span>
+          <span class="bal-val">₹342</span>
+        </div>
+        <div class="bal-track"><div class="bal-fill" style="width:68%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <div>
+          <div class="page-title" id="page-title">Overview</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="search-bar">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="Search leads...">
+        </div>
+        <div class="tb-divider"></div>
+        <div class="tb-btn">
+          <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <div class="notif-dot"></div>
+        </div>
+        <div class="tb-btn">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div class="screen active" id="screen-dashboard">
+        <div class="dash-metrics">
+          <div class="metric-card mc-green">
+            <div class="metric-icon" style="background:var(--green-light)"><svg viewBox="0 0 24 24" stroke="var(--green)"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+            <div class="metric-label">Total leads</div>
+            <div class="metric-val">47</div>
+            <div class="metric-change mc-up"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg> +12 this week</div>
+          </div>
+          <div class="metric-card mc-red">
+            <div class="metric-icon" style="background:var(--red-light)"><svg viewBox="0 0 24 24" stroke="var(--red)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+            <div class="metric-label">Hot leads</div>
+            <div class="metric-val">12</div>
+            <div class="metric-change mc-up"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg> +3 today</div>
+          </div>
+          <div class="metric-card mc-blue">
+            <div class="metric-icon" style="background:var(--blue-light)"><svg viewBox="0 0 24 24" stroke="var(--blue)"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+            <div class="metric-label">Site visits booked</div>
+            <div class="metric-val">8</div>
+            <div class="metric-change mc-up"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg> +2 this week</div>
+          </div>
+          <div class="metric-card mc-amber">
+            <div class="metric-icon" style="background:var(--gold-light)"><svg viewBox="0 0 24 24" stroke="var(--gold)"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+            <div class="metric-label">Bot handled</div>
+            <div class="metric-val">94%</div>
+            <div class="metric-change" style="color:var(--ink-4)">of all conversations</div>
+          </div>
+        </div>
+
+        <div class="dash-two">
+          <div class="dash-card">
+            <div class="dc-title">Recent hot leads</div>
+            <div class="lead-row" onclick="showScreen('inbox',document.querySelector('[onclick*=inbox]'))">
+              <div class="lr-av" style="background:#FDF0F0;color:#8B1A1A">RK</div>
+              <div class="lr-info"><div class="lr-name">Rahul Kumar</div><div class="lr-prop">3BHK · Baner · ₹90L</div></div>
+              <div class="lr-right"><div class="lr-score" style="color:var(--red)">9/10</div><div class="lr-time">2m ago</div></div>
+            </div>
+            <div class="lead-row">
+              <div class="lr-av" style="background:#EEF4FC;color:#0F3D6E">AD</div>
+              <div class="lr-info"><div class="lr-name">Anita Desai</div><div class="lr-prop">4BHK · Koregaon Park · ₹2.2Cr</div></div>
+              <div class="lr-right"><div class="lr-score" style="color:var(--red)">9/10</div><div class="lr-time">1h ago</div></div>
+            </div>
+            <div class="lead-row">
+              <div class="lr-av" style="background:#E8F5EE;color:#0F4A2E">PS</div>
+              <div class="lr-info"><div class="lr-name">Priya Sharma</div><div class="lr-prop">2BHK · Wakad · ₹65L</div></div>
+              <div class="lr-right"><div class="lr-score" style="color:var(--amber)">8/10</div><div class="lr-time">18m ago</div></div>
+            </div>
+            <div class="lead-row">
+              <div class="lr-av" style="background:#FEF9E7;color:#7A5200">DR</div>
+              <div class="lr-info"><div class="lr-name">Deepak Rao</div><div class="lr-prop">3BHK · Aundh · ₹1.1Cr</div></div>
+              <div class="lr-right"><div class="lr-score" style="color:var(--amber)">7/10</div><div class="lr-time">5h ago</div></div>
+            </div>
+          </div>
+          <div class="dash-card">
+            <div class="dc-title">Lead breakdown</div>
+            <div class="bar-row-d"><span class="bar-label-d">Hot</span><div class="bar-track-d"><div class="bar-fill-d" style="width:26%;background:#E74C3C"></div></div><span class="bar-val-d">12</span></div>
+            <div class="bar-row-d"><span class="bar-label-d">Warm</span><div class="bar-track-d"><div class="bar-fill-d" style="width:45%;background:#E9A530"></div></div><span class="bar-val-d">21</span></div>
+            <div class="bar-row-d"><span class="bar-label-d">Cold</span><div class="bar-track-d"><div class="bar-fill-d" style="width:30%;background:#3B82F6"></div></div><span class="bar-val-d">14</span></div>
+            <div style="margin-top:16px">
+              <div class="dc-title">Message usage</div>
+              <div class="usage-block">
+                <div class="ub-row"><span class="ub-label">Messages used</span><span class="ub-val">3,241 / 5,000</span></div>
+                <div class="ub-track"><div class="ub-fill" style="width:65%"></div></div>
+                <div class="ub-row"><span class="ub-label">WA balance used</span><span class="ub-val">₹158 / ₹500</span></div>
+                <div class="ub-track"><div class="ub-fill ub-fill-g" style="width:32%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INBOX -->
+      <div class="screen-inbox" id="screen-inbox">
+        <div class="inbox-list">
+          <div class="inbox-header">
+            <div class="inbox-title">Conversations</div>
+            <div class="filter-tabs">
+              <span class="ftab on" onclick="ftab(this)">All</span>
+              <span class="ftab" onclick="ftab(this)">Hot</span>
+              <span class="ftab" onclick="ftab(this)">Unread</span>
+            </div>
+          </div>
+          <div class="inbox-scroll">
+            <div class="conv sel" onclick="selectLead(this,'rahul')">
+              <div class="conv-av" style="background:#FDF0F0;color:#8B1A1A">RK</div>
+              <div class="conv-body"><div class="conv-name">Rahul Kumar</div><div class="conv-preview">Can I see it this Saturday?</div></div>
+              <div class="conv-meta"><span class="conv-time">2m</span><span class="pill p-hot">Hot</span></div>
+            </div>
+            <div class="conv" onclick="selectLead(this,'priya')">
+              <div class="conv-av" style="background:#FEF9E7;color:#7A5200">PS</div>
+              <div class="conv-body"><div class="conv-name">Priya Sharma</div><div class="conv-preview">What is the maintenance charge?</div></div>
+              <div class="conv-meta"><span class="conv-time">18m</span><span class="pill p-warm">Warm</span></div>
+            </div>
+            <div class="conv" onclick="selectLead(this,'amit')">
+              <div class="conv-av" style="background:#EEF4FC;color:#0F3D6E">AM</div>
+              <div class="conv-body"><div class="conv-name">Amit Mehta</div><div class="conv-preview">Just exploring for now</div></div>
+              <div class="conv-meta"><span class="conv-time">1h</span><span class="pill p-cold">Cold</span></div>
+            </div>
+            <div class="conv" onclick="selectLead(this,'sunita')">
+              <div class="conv-av" style="background:#E8F5EE;color:#0F4A2E">SJ</div>
+              <div class="conv-body"><div class="conv-name">Sunita Joshi</div><div class="conv-preview">Hi, interested in 2BHK rental</div></div>
+              <div class="conv-meta"><span class="conv-time">3h</span><span class="pill p-new">New</span></div>
+            </div>
+            <div class="conv" onclick="selectLead(this,'deepak')">
+              <div class="conv-av" style="background:#EEEDFE;color:#3C3489">DR</div>
+              <div class="conv-body"><div class="conv-name">Deepak Rao</div><div class="conv-preview">Send me the floor plan</div></div>
+              <div class="conv-meta"><span class="conv-time">5h</span><span class="pill p-warm">Warm</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="detail">
+          <div class="detail-header" id="detail-header">
+            <div class="d-av" id="d-av" style="background:#FDF0F0;color:#8B1A1A">RK</div>
+            <div><div class="d-name" id="d-name">Rahul Kumar</div><div class="d-phone" id="d-phone">+91 98765 43210</div></div>
+            <div class="d-header-right">
+              <span class="score-badge" id="d-score" style="background:#FDF0F0;color:#8B1A1A"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> 9/10</span>
+              <span class="window-tag wt-ok" id="d-window">⏱ 6h left</span>
+              <div class="d-actions">
+                <button class="da-btn da-btn-danger" id="takeover-btn" onclick="toggleManual()">Take over</button>
+                <button class="da-btn da-btn-primary">Book visit</button>
+              </div>
+            </div>
+          </div>
+          <div class="manual-bar" id="manual-bar">
+            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            You are in manual mode — bot is paused on this conversation
+            <button class="da-btn" style="margin-left:auto;font-size:11px" onclick="toggleManual()">Resume bot</button>
+          </div>
+          <div class="detail-tabs">
+            <div class="dtab on" onclick="showDTab('chat',this)">Chat</div>
+            <div class="dtab" onclick="showDTab('profile',this)">Profile</div>
+            <div class="dtab" onclick="showDTab('matched',this)">Matched properties</div>
+            <div class="dtab" onclick="showDTab('activity',this)">Activity</div>
+          </div>
+          <div class="dpane on" id="dpane-chat">
+            <div class="chat-messages">
+              <div class="msg out"><div class="msg-from"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>LeadNest bot</div><div class="msg-bubble">Hello! Welcome to Rajesh Properties. Are you looking to Buy or Rent?</div><div class="msg-time">10:02 AM</div></div>
+              <div class="msg in"><div class="msg-bubble">Buy. Looking for 3BHK in Baner</div><div class="msg-time">10:03 AM</div></div>
+              <div class="msg out"><div class="msg-from"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>LeadNest bot</div><div class="msg-bubble">Great! What is your approximate budget?</div><div class="msg-time">10:03 AM</div></div>
+              <div class="msg in"><div class="msg-bubble">Around 90 lakhs, flexible by 5-10L</div><div class="msg-time">10:05 AM</div></div>
+              <div class="msg out"><div class="msg-from"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>LeadNest bot</div><div class="msg-bubble">I have a beautiful east-facing 3BHK in Baner at ₹88L — 1,450 sqft with covered parking. Shall I share the details and photos?</div><div class="msg-time">10:05 AM</div></div>
+              <div class="msg in"><div class="msg-bubble">Yes please! Can I see it this Saturday?</div><div class="msg-time">10:08 AM</div></div>
+              <div class="msg out"><div class="msg-from"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>LeadNest bot</div><div class="msg-bubble">Absolutely! What works best — morning or afternoon?</div><div class="msg-time">10:08 AM</div></div>
+            </div>
+            <div class="chat-input">
+              <input type="text" id="chat-input-field" placeholder="Type a message (take over to reply)..." disabled>
+              <button class="send-btn"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+            </div>
+          </div>
+          <div class="dpane" id="dpane-profile">
+            <div class="profile-grid">
+              <div class="prow"><span class="pk">Looking for</span><span class="pv">Buy — 3BHK</span></div>
+              <div class="prow"><span class="pk">Areas preferred</span><span class="pv">Baner, Wakad</span></div>
+              <div class="prow"><span class="pk">Budget</span><span class="pv">₹85L – ₹1Cr</span></div>
+              <div class="prow"><span class="pk">Timeline</span><span class="pv">Within 3 months</span></div>
+              <div class="prow"><span class="pk">Family size</span><span class="pv">4 members</span></div>
+              <div class="prow"><span class="pk">Parking needed</span><span class="pv">Yes — 1 covered</span></div>
+              <div class="prow"><span class="pk">Lead source</span><span class="pv">WhatsApp inbound</span></div>
+              <div class="prow"><span class="pk">First contact</span><span class="pv">25 May 2026</span></div>
+              <div class="prow full"><span class="pk">AI lead score</span><span class="pv" style="color:var(--red)">9 / 10 — Hot lead</span></div>
+            </div>
+          </div>
+          <div class="dpane" id="dpane-matched">
+            <div class="match-list">
+              <div class="mp-card"><div class="mp-icon" style="background:var(--blue-light)">🏢</div><div class="mp-info"><div class="mp-name">3BHK Apartment — Baner</div><div class="mp-detail">1,450 sqft · East facing · Covered parking</div></div><div style="text-align:right"><div class="mp-price">₹88L</div><span class="mp-badge" style="background:var(--green-light);color:var(--green)">Best match</span></div></div>
+              <div class="mp-card"><div class="mp-icon" style="background:var(--green-light)">🏠</div><div class="mp-info"><div class="mp-name">3BHK Villa — Wakad</div><div class="mp-detail">1,800 sqft · Private garden · 2 parking</div></div><div style="text-align:right"><div class="mp-price">₹95L</div></div></div>
+              <div class="mp-card"><div class="mp-icon" style="background:var(--gold-light)">🏗</div><div class="mp-info"><div class="mp-name">3BHK Flat — Aundh</div><div class="mp-detail">1,320 sqft · Gym + pool · New building</div></div><div style="text-align:right"><div class="mp-price">₹92L</div></div></div>
+            </div>
+          </div>
+          <div class="dpane" id="dpane-activity">
+            <div class="tl">
+              <div class="tl-item"><div class="tl-icon" style="background:var(--red-light);border-color:rgba(192,57,43,0.2)"><svg viewBox="0 0 24 24" stroke="var(--red)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div><div class="tl-title">Marked as hot lead — AI score 9/10</div><div class="tl-sub">Today, 10:08 AM</div></div></div>
+              <div class="tl-item"><div class="tl-icon" style="background:var(--green-light);border-color:rgba(46,139,95,0.2)"><svg viewBox="0 0 24 24" stroke="var(--green)"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div><div class="tl-title">Site visit requested for Saturday</div><div class="tl-sub">Today, 10:08 AM</div></div></div>
+              <div class="tl-item"><div class="tl-icon" style="background:var(--blue-light);border-color:rgba(26,95,165,0.2)"><svg viewBox="0 0 24 24" stroke="var(--blue)"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div><div><div class="tl-title">Property match shared — 3BHK Baner</div><div class="tl-sub">Today, 10:05 AM</div></div></div>
+              <div class="tl-item"><div class="tl-icon"><svg viewBox="0 0 24 24" stroke="var(--ink-3)"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><div><div class="tl-title">Discovery completed — budget, area, timeline captured</div><div class="tl-sub">Today, 10:05 AM</div></div></div>
+              <div class="tl-item"><div class="tl-icon"><svg viewBox="0 0 24 24" stroke="var(--ink-3)"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg></div><div><div class="tl-title">Lead created — first message received</div><div class="tl-sub">Today, 10:02 AM</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEADS -->
+      <div class="screen" id="screen-leads">
+        <div class="leads-screen">
+          <div class="screen-header"><div class="screen-title">Lead pipeline</div><button class="add-btn"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add lead</button></div>
+          <div class="pipeline">
+            <div class="pipe-col"><div class="pipe-header"><span class="pipe-label">New</span><span class="pipe-count">3</span></div>
+              <div class="lcard"><div class="lcard-name">Rahul Kumar</div><div class="lcard-prop">3BHK · Baner</div><div class="lcard-foot"><span class="lcard-budget">₹90L</span><span class="lcard-score score-hi">9/10</span></div></div>
+              <div class="lcard"><div class="lcard-name">Sunita Joshi</div><div class="lcard-prop">2BHK Rental · Kothrud</div><div class="lcard-foot"><span class="lcard-budget">₹18K/mo</span><span class="lcard-score score-mid">6/10</span></div></div>
+              <div class="lcard"><div class="lcard-name">Vikram Nair</div><div class="lcard-prop">Plot · Hinjewadi</div><div class="lcard-foot"><span class="lcard-budget">₹40L</span><span class="lcard-score score-lo">5/10</span></div></div>
+            </div>
+            <div class="pipe-col"><div class="pipe-header"><span class="pipe-label">Qualified</span><span class="pipe-count">2</span></div>
+              <div class="lcard"><div class="lcard-name">Priya Sharma</div><div class="lcard-prop">2BHK · Wakad</div><div class="lcard-foot"><span class="lcard-budget">₹65L</span><span class="lcard-score score-hi">8/10</span></div></div>
+              <div class="lcard"><div class="lcard-name">Deepak Rao</div><div class="lcard-prop">3BHK · Aundh</div><div class="lcard-foot"><span class="lcard-budget">₹1.1Cr</span><span class="lcard-score score-mid">7/10</span></div></div>
+            </div>
+            <div class="pipe-col"><div class="pipe-header"><span class="pipe-label">Visit booked</span><span class="pipe-count">2</span></div>
+              <div class="lcard"><div class="lcard-name">Anita Desai</div><div class="lcard-prop">4BHK · Koregaon Park</div><div class="lcard-foot"><span class="lcard-budget">₹2.2Cr</span><span class="lcard-score score-hi">9/10</span></div></div>
+              <div class="lcard"><div class="lcard-name">Mohammed Iqbal</div><div class="lcard-prop">Shop · Hadapsar</div><div class="lcard-foot"><span class="lcard-budget">₹55L</span><span class="lcard-score score-hi">8/10</span></div></div>
+            </div>
+            <div class="pipe-col"><div class="pipe-header"><span class="pipe-label">Closed</span><span class="pipe-count">5</span></div>
+              <div class="lcard"><div class="lcard-name" style="color:var(--green)">Kiran Patil ✓</div><div class="lcard-prop">2BHK · Baner — Won</div></div>
+              <div class="lcard"><div class="lcard-name" style="color:var(--ink-4)">Ravi Gupta</div><div class="lcard-prop">Plot — Not interested</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROPERTIES -->
+      <div class="screen" id="screen-properties">
+        <div class="props-screen">
+          <div class="screen-header"><div class="screen-title">Properties</div><button class="add-btn"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add property</button></div>
+          <div class="prop-grid">
+            <div class="prop-card"><div class="prop-thumb" style="background:#EEF4FC"><span>🏢</span><span class="prop-status-tag pst-active">Active</span></div><div class="prop-body"><div class="prop-title">3BHK Apartment — Baner</div><div class="prop-loc">Baner, Pune</div><div class="prop-price">₹88,00,000</div><div class="prop-tags"><span class="prop-tag">Sale</span><span class="prop-tag">1,450 sqft</span><span class="prop-tag">East</span></div></div></div>
+            <div class="prop-card"><div class="prop-thumb" style="background:#E8F5EE"><span>🏠</span><span class="prop-status-tag pst-active">Active</span></div><div class="prop-body"><div class="prop-title">2BHK Flat — Wakad</div><div class="prop-loc">Wakad, Pune</div><div class="prop-price">₹62,00,000</div><div class="prop-tags"><span class="prop-tag">Sale</span><span class="prop-tag">1,100 sqft</span><span class="prop-tag">2 Parking</span></div></div></div>
+            <div class="prop-card"><div class="prop-thumb" style="background:#FEF9E7"><span>🚪</span><span class="prop-status-tag pst-active">Active</span></div><div class="prop-body"><div class="prop-title">2BHK Rental — Kothrud</div><div class="prop-loc">Kothrud, Pune</div><div class="prop-price">₹22,000 / month</div><div class="prop-tags"><span class="prop-tag">Rental</span><span class="prop-tag">Semi-furnished</span></div></div></div>
+            <div class="prop-card" style="opacity:0.6"><div class="prop-thumb" style="background:var(--cream-2)"><span>🗺</span><span class="prop-status-tag pst-sold">Sold</span></div><div class="prop-body"><div class="prop-title">Residential Plot — Hinjewadi</div><div class="prop-loc">Hinjewadi, Pune</div><div class="prop-price" style="color:var(--ink-4)">₹45,00,000</div><div class="prop-tags"><span class="prop-tag">Sale</span><span class="prop-tag">1,800 sqft</span></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- APPOINTMENTS -->
+      <div class="screen" id="screen-appointments">
+        <div class="appts-screen">
+          <div class="screen-header"><div class="screen-title">Appointments</div><div style="display:flex;gap:6px"><button class="da-btn" style="font-size:11px">Upcoming</button><button class="da-btn" style="font-size:11px">All</button></div></div>
+          <div class="appt-card"><div class="appt-date-box" style="background:var(--green-light);border-color:rgba(46,139,95,0.2)"><div class="adb-day" style="color:var(--green)">28</div><div class="adb-month" style="color:var(--green)">May</div></div><div class="appt-info"><div class="appt-name">Rahul Kumar</div><div class="appt-prop">3BHK Apartment — Baner, Pune</div><div class="appt-time"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>11:00 AM · +91 98765 43210</div></div><span class="appt-status as-upcoming">Upcoming</span></div>
+          <div class="appt-card"><div class="appt-date-box" style="background:var(--amber-light);border-color:rgba(183,119,13,0.2)"><div class="adb-day" style="color:var(--amber)">26</div><div class="adb-month" style="color:var(--amber)">May</div></div><div class="appt-info"><div class="appt-name">Anita Desai</div><div class="appt-prop">4BHK — Koregaon Park, Pune</div><div class="appt-time"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>3:00 PM · Result pending</div></div><span class="appt-status as-pending">Awaiting update</span></div>
+          <div class="appt-card"><div class="appt-date-box"><div class="adb-day">22</div><div class="adb-month">May</div></div><div class="appt-info"><div class="appt-name">Mohammed Iqbal</div><div class="appt-prop">Commercial Shop — Hadapsar, Pune</div><div class="appt-time"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>10:00 AM</div></div><span class="appt-status as-done">Done</span></div>
+        </div>
+      </div>
+
+      <!-- ANALYTICS -->
+      <div class="screen" id="screen-analytics">
+        <div class="analytics-screen">
+          <div class="screen-header"><div class="screen-title">Analytics</div></div>
+          <div class="an-metrics">
+            <div class="metric-card mc-green"><div class="metric-label">Conversion rate</div><div class="metric-val">6.4%</div><div class="metric-change mc-up">Leads → visits</div></div>
+            <div class="metric-card mc-blue"><div class="metric-label">Avg response time</div><div class="metric-val">4s</div><div class="metric-change" style="color:var(--ink-4)">Bot handled</div></div>
+            <div class="metric-card mc-amber"><div class="metric-label">Bot takeovers</div><div class="metric-val">6%</div><div class="metric-change" style="color:var(--ink-4)">Manual override</div></div>
+          </div>
+          <div class="dash-two">
+            <div class="dash-card">
+              <div class="dc-title">Lead sources</div>
+              <div class="bar-row-d"><span class="bar-label-d">WA inbound</span><div class="bar-track-d"><div class="bar-fill-d" style="width:72%;background:#1A5FA5"></div></div><span class="bar-val-d">34</span></div>
+              <div class="bar-row-d"><span class="bar-label-d">Referral</span><div class="bar-track-d"><div class="bar-fill-d" style="width:19%;background:#2E8B5F"></div></div><span class="bar-val-d">9</span></div>
+              <div class="bar-row-d"><span class="bar-label-d">Manual</span><div class="bar-track-d"><div class="bar-fill-d" style="width:9%;background:#B7770D"></div></div><span class="bar-val-d">4</span></div>
+            </div>
+            <div class="dash-card">
+              <div class="dc-title">Intent breakdown</div>
+              <div class="bar-row-d"><span class="bar-label-d">Buy</span><div class="bar-track-d"><div class="bar-fill-d" style="width:68%;background:#1A5FA5"></div></div><span class="bar-val-d">32</span></div>
+              <div class="bar-row-d"><span class="bar-label-d">Rent</span><div class="bar-track-d"><div class="bar-fill-d" style="width:32%;background:#2E8B5F"></div></div><span class="bar-val-d">15</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BALANCE -->
+      <div class="screen" id="screen-balance">
+        <div class="balance-screen">
+          <div class="screen-header"><div class="screen-title">WhatsApp balance</div></div>
+          <div class="bal-hero">
+            <div class="bal-sub">Available balance</div>
+            <div class="bal-amount">₹342</div>
+            <div style="font-size:12px;color:var(--ink-4);margin-top:6px">Used for outbound template messages · Meta charges deducted automatically</div>
+            <div class="topup-row">
+              <div class="topup-btn">+ ₹100</div>
+              <div class="topup-btn">+ ₹500</div>
+              <div class="topup-btn">+ ₹1,000</div>
+            </div>
+          </div>
+          <div class="txn-card">
+            <div class="dc-title" style="margin-bottom:12px">Transaction history</div>
+            <div class="txn-row"><span class="txn-desc">Top-up via UPI</span><span class="txn-date">24 May</span><span class="txn-credit">+ ₹500</span></div>
+            <div class="txn-row"><span class="txn-desc">Appointment reminder — Rahul Kumar</span><span class="txn-date">23 May</span><span class="txn-debit">− ₹0.32</span></div>
+            <div class="txn-row"><span class="txn-desc">Nurture follow-up — 8 leads</span><span class="txn-date">22 May</span><span class="txn-debit">− ₹6.16</span></div>
+            <div class="txn-row"><span class="txn-desc">Re-engagement — 12 cold leads</span><span class="txn-date">20 May</span><span class="txn-debit">− ₹9.24</span></div>
+            <div class="txn-row"><span class="txn-desc">Top-up via UPI</span><span class="txn-date">15 May</span><span class="txn-credit">+ ₹200</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="screen" id="screen-settings">
+        <div class="settings-screen">
+          <div class="screen-header"><div class="screen-title">Settings</div></div>
+          <div class="settings-card">
+            <div class="settings-title">Business details</div>
+            <div class="srow"><span class="skey">Agency name</span><span class="sval">Rajesh Properties</span><span class="s-edit">Edit</span></div>
+            <div class="srow"><span class="skey">City</span><span class="sval">Pune, Maharashtra</span><span class="s-edit">Edit</span></div>
+            <div class="srow"><span class="skey">Areas covered</span><span class="sval">Baner, Wakad, Kothrud</span><span class="s-edit">Edit</span></div>
+            <div class="srow"><span class="skey">Bot tone</span><span class="sval">Friendly</span><span class="s-edit">Edit</span></div>
+            <div class="srow"><span class="skey">Office hours</span><span class="sval">9:00 AM – 7:00 PM</span><span class="s-edit">Edit</span></div>
+            <div class="srow"><span class="skey">Language</span><span class="sval">English + Hindi + Marathi</span><span class="s-edit">Edit</span></div>
+          </div>
+          <div class="settings-card">
+            <div class="settings-title">Bot controls</div>
+            <div class="srow"><span class="skey">Bot active</span><span class="sval" style="color:var(--green)">Running on WhatsApp</span><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+            <div class="srow"><span class="skey">23h window keep-alive</span><span class="sval">Auto re-engage before window closes</span><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+            <div class="srow"><span class="skey">Low balance alerts</span><span class="sval">Notify at ₹50 remaining</span><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+            <div class="srow"><span class="skey">Post-visit prompts</span><span class="sval">Ask agent after each site visit</span><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+          </div>
+          <div class="settings-card">
+            <div class="settings-title">Subscription</div>
+            <div class="srow"><span class="skey">Plan</span><span class="sval">Monthly — ₹999 / month</span><span class="s-edit">Upgrade to annual</span></div>
+            <div class="srow"><span class="skey">Next billing</span><span class="sval">25 Jun 2026</span></div>
+            <div class="srow"><span class="skey">Message usage</span><span class="sval">3,241 / 5,000 this month</span><span class="s-edit">Buy add-on</span></div>
+            <div class="srow"><span class="skey">WhatsApp number</span><span class="sval" style="color:var(--green)">+91 98765 43210 — Connected</span><span class="s-edit">Reconnect</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+var isManual=false;
+var currentScreen='dashboard';
+var leads={
+  rahul:{av:'RK',bg:'#FDF0F0',c:'#8B1A1A',name:'Rahul Kumar',phone:'+91 98765 43210',score:'9/10',scorebg:'#FDF0F0',scorec:'#8B1A1A',window:'6h left',warnClass:'wt-ok'},
+  priya:{av:'PS',bg:'#FEF9E7',c:'#7A5200',name:'Priya Sharma',phone:'+91 97654 32109',score:'8/10',scorebg:'#FEF9E7',scorec:'#7A5200',window:'14h left',warnClass:'wt-ok'},
+  amit:{av:'AM',bg:'#EEF4FC',c:'#0F3D6E',name:'Amit Mehta',phone:'+91 96543 21098',score:'4/10',scorebg:'#EEF4FC',scorec:'#0F3D6E',window:'1h left',warnClass:'wt-warn'},
+  sunita:{av:'SJ',bg:'#E8F5EE',c:'#0F4A2E',name:'Sunita Joshi',phone:'+91 95432 10987',score:'6/10',scorebg:'#E8F5EE',scorec:'#0F4A2E',window:'21h left',warnClass:'wt-ok'},
+  deepak:{av:'DR',bg:'#EEEDFE',c:'#3C3489',name:'Deepak Rao',phone:'+91 94321 09876',score:'7/10',scorebg:'#FEF9E7',scorec:'#7A5200',window:'5h left',warnClass:'wt-warn'}
+};
+var pageTitles={dashboard:'Overview',inbox:'Inbox',leads:'Leads',properties:'Properties',appointments:'Appointments',analytics:'Analytics',balance:'WA Balance',settings:'Settings'};
+
+function showScreen(name,navEl){
+  document.querySelectorAll('.screen,.screen-inbox').forEach(function(s){s.classList.remove('active')});
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active')});
+  var el=document.getElementById('screen-'+name);
+  if(el) el.classList.add('active');
+  if(navEl) navEl.classList.add('active');
+  document.getElementById('page-title').textContent=pageTitles[name]||name;
+  currentScreen=name;
+}
+
+function selectLead(el,key){
+  document.querySelectorAll('.conv').forEach(function(c){c.classList.remove('sel')});
+  el.classList.add('sel');
+  var l=leads[key];
+  document.getElementById('d-av').textContent=l.av;
+  document.getElementById('d-av').style.background=l.bg;
+  document.getElementById('d-av').style.color=l.c;
+  document.getElementById('d-name').textContent=l.name;
+  document.getElementById('d-phone').textContent=l.phone;
+  var sc=document.getElementById('d-score');
+  sc.textContent='★ '+l.score;
+  sc.style.background=l.scorebg;
+  sc.style.color=l.scorec;
+  var wt=document.getElementById('d-window');
+  wt.textContent='⏱ '+l.window;
+  wt.className='window-tag '+l.warnClass;
+  if(isManual){isManual=true;toggleManual();isManual=false;toggleManual();}
+}
+
+function toggleManual(){
+  isManual=!isManual;
+  var bar=document.getElementById('manual-bar');
+  var btn=document.getElementById('takeover-btn');
+  var inp=document.getElementById('chat-input-field');
+  bar.style.display=isManual?'flex':'none';
+  btn.textContent=isManual?'Resume bot':'Take over';
+  btn.className=isManual?'da-btn da-btn-primary':'da-btn da-btn-danger';
+  inp.disabled=!isManual;
+  inp.placeholder=isManual?'Type your message...':'Type a message (take over to reply)...';
+}
+
+function showDTab(name,el){
+  document.querySelectorAll('.dtab').forEach(function(t){t.classList.remove('on')});
+  document.querySelectorAll('.dpane').forEach(function(p){p.classList.remove('on')});
+  el.classList.add('on');
+  document.getElementById('dpane-'+name).classList.add('on');
+}
+
+function ftab(el){
+  document.querySelectorAll('.ftab').forEach(function(f){f.classList.remove('on')});
+  el.classList.add('on');
+}
+
+var botOn=true;
+function toggleBot(){
+  botOn=!botOn;
+  document.getElementById('bot-dot').style.background=botOn?'#4DB88A':'#888';
+  document.getElementById('bot-text').textContent=botOn?'Bot active':'Bot paused';
+}
+</script>
+</body>
+</html>

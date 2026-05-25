@@ -1,0 +1,87 @@
+<USER_REQUEST>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeadNest — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #FAFAF7;
+  --cream-2: #F4F3EE;
+  --cream-3: #ECEAE0;
+  --ink: #1A1916;
+  --ink-2: #3D3B34;
+  --ink-3: #6B6860;
+  --ink-4: #9E9B92;
+  --ink-5: #C8C5BC;
+  --green: #1A6B4A;
+  --green-light: #E8F5EE;
+  --green-mid: #2E8B5F;
+  --green-bright: #4DB88A;
+  --gold: #B8955A;
+  --gold-light: #FDF6EC;
+  --red: #C0392B;
+  --red-light: #FDF0F0;
+  --amber: #B7770D;
+  --amber-light: #FEF9E7;
+  --blue: #1A5FA5;
+  --blue-light: #EEF4FC;
+  --border: rgba(26,25,22,0.08);
+  --border-md: rgba(26,25,22,0.13);
+  --border-strong: rgba(26,25,22,0.18);
+  --radius: 14px;
+  --radius-sm: 9px;
+  --radius-xs: 6px;
+  --shadow-sm: 0 1px 2px rgba(26,25,22,0.06), 0 2px 8px rgba(26,25,22,0.04);
+  --shadow: 0 1px 4px rgba(26,25,22,0.07), 0 6px 24px rgba(26,25,22,0.05);
+  --shadow-md: 0 2px 8px rgba(26,25,22,0.08), 0 12px 40px rgba(26,25,22,0.07);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);height:100vh;overflow:hidden}
+button,input,select,textarea{font-family:'DM Sans',sans-serif}
+
+.app{display:flex;height:100vh;overflow:hidden}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:220px;min-width:220px;
+  background:var(--ink);
+  display:flex;flex-direction:column;
+  position:relative;overflow:hidden;
+}
+.sb-glow{
+  position:absolute;width:280px;height:280px;
+  background:radial-gradient(circle,rgba(46,139,95,0.16) 0%,transparent 70%);
+  top:-60px;right:-100px;pointer-events:none;
+}
+.sb-glow2{
+  position:absolute;width:200px;height:200px;
+  background:radial-gradient(circle,rgba(184,149,90,0.10) 0%,transparent 70%);
+  bott
+<truncated 45215 bytes>
+ount">2</span></div>
+              <div class="lcard"><div class="lcard-name">Priya Sharma</div><div class="lcard-prop">2BHK · Wakad</div><div class="lcard-foot"><span class="lcard-budget">₹65L</span><span class="lcard-score score-hi">8/10</span></div></div>
+              <div class="lcard"><div class="lcard-name">Deepak Rao</div><div class="lcard-prop">3BHK · Aundh</div><div class="lcard-foot"><span class="lcard-budget">₹1.1Cr</span><span class="lcard-score score-mid">7/10</span></div></div>
+            </div>
+            <div class="pipe-col"><div class="pipe-header"><span class="pipe-label">Visit booked</span><span class="pipe-count">2</span></div>
+              <div class="lcard"><div class="lcard-name">Anita Desai</div><div class="lcard-prop">4BHK · Koregaon Park</div><div class="lcard-foot"><span class="lcard-budget">₹2.2Cr</span><span class="lcard-score score-hi">9/10</span></div></div>
+              <div class="lcard"><div class="lcard-name">Mohammed Iqbal</div><div class="lcard-prop">Shop · Hadapsar</div><div class="lcard-foot"><span class="lcard-budget">₹55L</span><span class="lcard-score score-hi">8/10</span></div></div>
+            </div>
+            <div class="pipe-col"><div class="pipe-header"><span class="pipe-label">Closed</span><span class="pipe-count">5</span></div>
+              <div class="lcard"><div class="lcard-name" style="color:var(--green)">Kiran Patil ✓</div><div class="lcard-prop">2BHK · Baner — Won</div></div>
+              <div class="lcard"><div class="lcard-name" style="color:var(--ink-4)">Ravi Gupta</div><div class="lcard-prop">Plot — Not interested</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROPERTIES -->
+      <div class="screen" id="screen-properties">
+        <div class="props-screen">
+          <div class="screen-header"><div class="screen-title">Propertie
+<truncated 50514 bytes>
+
+NOTE: The output was truncated because it was too long. Use a more targeted query or a smaller range to get the information you need.

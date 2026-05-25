@@ -1,0 +1,105 @@
+<div class="screen" id="screen-settings">
+        <div class="settings-screen">
+          <div class="screen-header"><div class="screen-title">Settings</div></div>
+          <div class="settings-card">
+            <div class="settings-title">Business details</div>
+            <div class="srow"><span class="skey">Agency name</span><span class="sval">Rajesh Properties</span><span class="s-edit">Edit</span></div>
+            <div class="srow"><span class="skey">City</span><span class="sval">Pune, Maharashtra</span><span class="s-edit">Edit</span></div>
+            <div class="srow"><span class="skey">Areas covered</span><span class="sval">Baner, Wakad, Kothrud</span><span class="s-edit">Edit</span></div>
+            <div class="srow"><span class="skey">Bot tone</span><span class="sval">Friendly</span><span class="s-edit">Edit</span></div>
+            <div class="srow"><span class="skey">Office hours</span><span class="sval">9:00 AM – 7:00 PM</span><span class="s-edit">Edit</span></div>
+            <div class="srow"><span class="skey">Language</span><span class="sval">English + Hindi + Marathi</span><span class="s-edit">Edit</span></div>
+          </div>
+          <div class="settings-card">
+            <div class="settings-title">Bot controls</div>
+            <div class="srow"><span class="skey">Bot active</span><span class="sval" style="color:var(--green)">Running on WhatsApp</span><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+            <div class="srow"><span class="skey">23h window keep-alive</span><span class="sval">Auto re-engage before window closes</span><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+            <div class="srow"><span class="skey">Low balance alerts</span><span class="sval">Notify at ₹50 remaining</span><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+            <div class="srow"><span class="skey">Post-visit prompts</span><span class="sval">Ask agent after each site visit</span><label class="toggle"><input type="checkbox" checked><span class="tslider"></span></label></div>
+          </div>
+          <div class="settings-card">
+            <div class="settings-title">Subscription</div>
+            <div class="srow"><span class="skey">Plan</span><span class="sval">Monthly — ₹999 / month</span><span class="s-edit">Upgrade to annual</span></div>
+            <div class="srow"><span class="skey">Next billing</span><span class="sval">25 Jun 2026</span></div>
+            <div class="srow"><span class="skey">Message usage</span><span class="sval">3,241 / 5,000 this month</span><span class="s-edit">Buy add-on</span></div>
+            <div class="srow"><span class="skey">WhatsApp number</span><span class="sval" style="color:var(--green)">+91 98765 43210 — Connected</span><span class="s-edit">Reconnect</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+var isManual=false;
+var currentScreen='dashboard';
+var leads={
+  rahul:{av:'RK',bg:'#FDF0F0',c:'#8B1A1A',name:'Rahul Kumar',phone:'+91 98765 43210',score:'9/10',scorebg:'#FDF0F0',scorec:'#8B1A1A',window:'6h left',warnClass:'wt-ok'},
+  priya:{av:'PS',bg:'#FEF9E7',c:'#7A5200',name:'Priya Sharma',phone:'+91 97654 32109',score:'8/10',scorebg:'#FEF9E7',scorec:'#7A5200',window:'14h left',warnClass:'wt-ok'},
+  amit:{av:'AM',bg:'#EEF4FC',c:'#0F3D6E',name:'Amit Mehta',phone:'+91 96543 21098',score:'4/10',scorebg:'#EEF4FC',scorec:'#0F3D6E',window:'1h left',warnClass:'wt-warn'},
+  sunita:{av:'SJ',bg:'#E8F5EE',c:'#0F4A2E',name:'Sunita Joshi',phone:'+91 95432 10987',score:'6/10',scorebg:'#E8F5EE',scorec:'#0F4A2E',window:'21h left',warnClass:'wt-ok'},
+  deepak:{av:'DR',bg:'#EEEDFE',c:'#3C3489',name:'Deepak Rao',phone:'+91 94321 09876',score:'7/10',scorebg:'#FEF9E7',scorec:'#7A5200',window:'5h left',warnClass:'wt-warn'}
+};
+var pageTitles={dashboard:'Overview',inbox:'Inbox',leads:'Leads',properties:'Properties',appointments:'Appointments',analytics:'Analytics',balance:'WA Balance',settings:'Settings'};
+
+function showScreen(name,navEl){
+  document.querySelectorAll('.screen,.screen-inbox').forEach(function(s){s.classList.remove('active')});
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active')});
+  var el=document.getElementById('screen-'+name);
+  if(el) el.classList.add('active');
+  if(navEl) navEl.classList.add('active');
+  document.getElementById('page-title').textContent=pageTitles[name]||name;
+  currentScreen=name;
+}
+
+function selectLead(el,key){
+  document.querySelectorAll('.conv').forEach(function(c){c.classList.remove('sel')});
+  el.classList.add('sel');
+  var l=leads[key];
+  document.getElementById('d-av').textContent=l.av;
+  document.getElementById('d-av').style.background=l.bg;
+  document.getElementById('d-av').style.color=l.c;
+  document.getElementById('d-name').textContent=l.name;
+  document.getElementById('d-phone').textContent=l.phone;
+  var sc=document.getElementById('d-score');
+  sc.textContent='★ '+l.score;
+  sc.style.background=l.scorebg;
+  sc.style.color=l.scorec;
+  var wt=document.getElementById('d-window');
+  wt.textContent='⏱ '+l.window;
+  wt.className='window-tag '+l.warnClass;
+  if(isManual){isManual=true;toggleManual();isManual=false;toggleManual();}
+}
+
+function toggleManual(){
+  isManual=!isManual;
+  var bar=document.getElementById('manual-bar');
+  var btn=document.getElementById('takeover-btn');
+  var inp=document.getElementById('chat-input-field');
+  bar.style.display=isManual?'flex':'none';
+  btn.textContent=isManual?'Resume bot':'Take over';
+  btn.className=isManual?'da-btn da-btn-primary':'da-btn da-btn-danger';
+  inp.disabled=!isManual;
+  inp.placeholder=isManual?'Type your message...':'Type a message (take over to reply)...';
+}
+
+function showDTab(name,el){
+  document.querySelectorAll('.dtab').forEach(function(t){t.classList.remove('on')});
+  document.querySelectorAll('.dpane').forEach(function(p){p.classList.remove('on')});
+  el.classList.add('on');
+  document.getElementById('dpane-'+name).classList.add('on');
+}
+
+function ftab(el){
+  document.querySelectorAll('.ftab').forEach(function(f){f.classList.remove('on')});
+  el.classList.add('on');
+}
+
+var botOn=true;
+function toggleBot(){
+  botOn=!botOn;
+  document.getElementById('bot-dot').style.background=botOn?'#4DB88A':'#888';
+  document.getElementById('bot-text').textContent=botOn?'Bot active':'Bot paused';
+}
+</script>
